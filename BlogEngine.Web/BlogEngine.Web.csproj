@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BlogEngine.Application\BlogEngine.Application.csproj" />
+    <ProjectReference Include="..\BlogEngine.Infrastructure\BlogEngine.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
