@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using BlogEngine.Application;
 using BlogEngine.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,7 @@ namespace BlogEngine.Web
             services.AddApplication();
             services.AddInfrastructure();
             services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

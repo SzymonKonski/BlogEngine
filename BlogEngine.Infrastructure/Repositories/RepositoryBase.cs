@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using BlogEngine.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogEngine.Infrastructure.Repositories
 {
-    public class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
         protected Context RepositoryContext { get; set; }
 
@@ -17,15 +18,6 @@ namespace BlogEngine.Infrastructure.Repositories
             this.RepositoryContext = repositoryContext;
         }
 
-        public IQueryable<T> FindAll()
-        {
-            return this.RepositoryContext.Set<T>().AsNoTracking();
-        }
-
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
-        {
-            return this.RepositoryContext.Set<T>().Where(expression).AsNoTracking();
-        }
 
         public void Create(T entity)
         {
@@ -40,6 +32,12 @@ namespace BlogEngine.Infrastructure.Repositories
         public void Delete(T entity)
         {
             this.RepositoryContext.Set<T>().Remove(entity);
+        }
+
+        public T GetById(int id)
+        { 
+            T item = this.RepositoryContext.Set<T>().FirstOrDefault(s => s.Id == id);
+            return item;
         }
     }
 }

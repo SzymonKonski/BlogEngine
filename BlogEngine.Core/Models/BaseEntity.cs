@@ -4,6 +4,6 @@ namespace BlogEngine.Core.Models
 {
     public class BaseEntity
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 }
