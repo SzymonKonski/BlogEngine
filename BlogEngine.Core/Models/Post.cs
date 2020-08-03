@@ -15,6 +15,6 @@ namespace BlogEngine.Core.Models
         public string Author { get; set; }
         public DateTime DateCreated { get; set; }
         public bool IsDeleted { get; set; }
-        public IEnumerable<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

@@ -28,14 +28,14 @@ namespace BlogEngine.Web.Controllers
         public ActionResult Details(int id)
         {
             var model = _service.GetById(id);
-            return View(model);
+            return BadRequest(model);
         }
 
         // GET: PostController/Create
         public ActionResult Create()
         {
 
-            return View();
+            return BadRequest();
         }
 
         // POST: PostController/Create
@@ -50,7 +50,7 @@ namespace BlogEngine.Web.Controllers
             }
             catch
             {
-                return View();
+                return BadRequest();
             }
         }
 
@@ -58,7 +58,7 @@ namespace BlogEngine.Web.Controllers
         public ActionResult Edit(int id)
         {
 
-            return View();
+            return BadRequest();
         }
 
         // POST: PostController/Edit/5
@@ -72,7 +72,7 @@ namespace BlogEngine.Web.Controllers
             }
             catch
             {
-                return View();
+                return BadRequest();
             }
         }
 
@@ -80,7 +80,7 @@ namespace BlogEngine.Web.Controllers
         public ActionResult Delete(int id)
         {
             _service.Delete(id);
-            return View();
+            return BadRequest();
         }
 
         // POST: PostController/Delete/5
@@ -95,7 +95,7 @@ namespace BlogEngine.Web.Controllers
             }
             catch
             {
-                return View();
+                return BadRequest();
             }
         }
     }
