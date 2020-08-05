@@ -6,42 +6,48 @@ using System.Linq.Expressions;
 using System.Text;
 using BlogEngine.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace BlogEngine.Infrastructure.Repositories
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
-        protected Context RepositoryContext { get; set; }
+        protected Context Context { get; set; }
 
         public RepositoryBase(Context repositoryContext)
         {
-            this.RepositoryContext = repositoryContext;
+            this.Context = repositoryContext;
         }
 
-        public void Create(T entity)
+        public IQueryable<T> GetAll()
         {
-            this.RepositoryContext.Set<T>().Add(entity);
+            return Context.Set<T>().AsNoTracking();
         }
 
-        public void Update(T entity)
+        public async Task Create(T entity)
         {
-            this.RepositoryContext.Set<T>().Update(entity);
+           await Context.Set<T>().AddAsync(entity);
+           await Context.SaveChangesAsync();
         }
 
-        public void Delete(T entity)
+        public async Task Update(T entity)
         {
-            this.RepositoryContext.Set<T>().Remove(entity);           
+            this.Context.Set<T>().Update(entity);
+            await Context.SaveChangesAsync();
+
+        }
+
+        public async Task Delete(T entity)
+        {
+            this.Context.Set<T>().Remove(entity);
+            await Context.SaveChangesAsync();
         }
 
         public T GetById(int id)
         { 
-            T item = this.RepositoryContext.Set<T>().FirstOrDefault(s => s.Id == id);
+            T item = this.Context.Set<T>().FirstOrDefault(s => s.Id == id);
             return item;
         }
 
-        public void Save()
-        {
-            this.RepositoryContext.SaveChanges();
-        }
     }
 }

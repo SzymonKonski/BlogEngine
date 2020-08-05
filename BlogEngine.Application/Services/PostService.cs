@@ -3,6 +3,7 @@ using BlogEngine.Application.Interfaces;
 using BlogEngine.Application.ViewModels;
 using BlogEngine.Core.Interfaces;
 using BlogEngine.Core.Models;
+using System.Threading.Tasks;
 
 namespace BlogEngine.Application.Services
 {
@@ -17,29 +18,26 @@ namespace BlogEngine.Application.Services
             _mapper = mapper;
         }
 
-        public void Delete(int postId)
+        public async Task Delete(int postId)
         {
-            var item = _postRepo.GetById(postId);
-            _postRepo.Delete(item);
-            _postRepo.Save();
+            var item =  _postRepo.GetById(postId);
+            await _postRepo.Delete(item);
         }
 
-        public void Create(PostViewModel postVm)
+        public async Task Create(PostViewModel postVm)
         {
             var item = _mapper.Map<Post>(postVm);
-            _postRepo.Create(item);
-            _postRepo.Save(); 
+            await _postRepo.Create(item);
         }
-        public void Update(PostViewModel postVm)
+        public async Task Update(PostViewModel postVm)
         {
             var item = _mapper.Map<Post>(postVm);
-            _postRepo.Update(item);
-            _postRepo.Save();
+            await _postRepo.Update(item);
         }
 
-        public PostViewModel GetById(int postId)
+        public async Task<PostViewModel> GetById(int postId)
         {
-            Post post = _postRepo.GetById(postId);
+            Post post =  _postRepo.GetById(postId);
             PostViewModel postViewModel = _mapper.Map<PostViewModel>(post);
             return postViewModel;
         }
