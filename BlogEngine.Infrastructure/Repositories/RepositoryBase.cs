@@ -18,7 +18,6 @@ namespace BlogEngine.Infrastructure.Repositories
             this.RepositoryContext = repositoryContext;
         }
 
-
         public void Create(T entity)
         {
             this.RepositoryContext.Set<T>().Add(entity);
@@ -31,13 +30,18 @@ namespace BlogEngine.Infrastructure.Repositories
 
         public void Delete(T entity)
         {
-            this.RepositoryContext.Set<T>().Remove(entity);
+            this.RepositoryContext.Set<T>().Remove(entity);           
         }
 
         public T GetById(int id)
         { 
             T item = this.RepositoryContext.Set<T>().FirstOrDefault(s => s.Id == id);
             return item;
+        }
+
+        public void Save()
+        {
+            this.RepositoryContext.SaveChanges();
         }
     }
 }

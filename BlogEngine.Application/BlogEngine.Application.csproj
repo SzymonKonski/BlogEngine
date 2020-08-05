@@ -15,8 +15,4 @@
     <ProjectReference Include="..\BlogEngine.Core\BlogEngine.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
 </Project>
