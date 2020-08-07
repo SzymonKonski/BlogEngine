@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogEngine.Application.Interfaces;
 using BlogEngine.Application.Services;
 using BlogEngine.Application.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BlogEngine.Web.Controllers
 {
@@ -23,27 +19,30 @@ namespace BlogEngine.Web.Controllers
             _service = service;
 
         }
-        // GET: api/<PostsController>
+
         [HttpGet]
-        [AllowAnonymous]
-        public IEnumerable<string> Get()
+        public async Task<PostListViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return await _service.GetAll();
         }
 
         // GET api/<PostsController>/5
         [HttpGet("{id}")]
-        public ActionResult<PostViewModel> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var model = _service.GetById(id);
+            var model =  await _service.GetById(id);
+            if(model == null)
+            {
+                return NotFound();
+            }
             return Ok(model);
         }
 
         // POST api/<PostsController>
         [HttpPost]
-        public void Post([FromBody] PostViewModel value)
+        public async Task Post([FromBody] PostViewModel value)
         {
-            _service.Create(value);
+            await _service.Create(value);
         }
 
         // PUT api/<PostsController>/5
@@ -55,9 +54,9 @@ namespace BlogEngine.Web.Controllers
 
         // DELETE api/<PostsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _service.Delete(id);
+            await _service.Delete(id);
         }
     }
 }

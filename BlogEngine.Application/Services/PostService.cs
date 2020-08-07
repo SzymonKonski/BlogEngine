@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BlogEngine.Application.Interfaces;
 using BlogEngine.Application.ViewModels;
 using BlogEngine.Core.Interfaces;
 using BlogEngine.Core.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace BlogEngine.Application.Services
@@ -41,5 +43,18 @@ namespace BlogEngine.Application.Services
             PostViewModel postViewModel = _mapper.Map<PostViewModel>(post);
             return postViewModel;
         }
+
+        public async Task<PostListViewModel> GetAll()
+        {
+            var posts = await _postRepo.GetAll()
+                                       .ProjectTo<PostViewModel>(_mapper.ConfigurationProvider)
+                                       .ToListAsync();
+            return new PostListViewModel()
+            {
+                Posts = posts,
+                Count = posts.Count
+            };
+        
+         }
     }
 }
